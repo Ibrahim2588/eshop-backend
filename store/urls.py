@@ -15,5 +15,5 @@ urlpatterns = [
     path('order/', views.OrderListCreateView.as_view()),
     path('order/<int:pk>/', views.OrderUpdateDestroyView.as_view()),
 
-    
+    path('command/', views.CommandView.as_view(), name='command management'),
 ]

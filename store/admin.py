@@ -6,6 +6,7 @@ from .models import (
     Product,
     Image,
     Characteristics,
+    Command,
 )
 
 class ImageInline(admin.TabularInline):
@@ -18,6 +19,10 @@ class CharacteristicsInline(admin.TabularInline):
 
 class ProductInline(admin.TabularInline):
     model = Product
+    extra = 0
+
+class OrderInline(admin.TabularInline):
+    model = Order
     extra = 0
 
 
@@ -35,3 +40,10 @@ class CategoryAdmin(admin.ModelAdmin):
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['product', 'user', 'quantity', 'ordered']
     list_filter = ['user', 'ordered', ]
+
+@admin.register(Command)
+class CommanAdmin(admin.ModelAdmin):
+    list_display = ['user', 'has_deliver', 'is_sell', 'is_cancel', ]
+    list_filter = ['user', ]
+    inlines = [OrderInline, ]
+

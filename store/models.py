@@ -188,12 +188,73 @@ class Image(models.Model):
         verbose_name_plural = _('images')
  
 
+
+
+
+class Command(models.Model):
+
+    user = models.ForeignKey(
+        UserModel,
+        verbose_name=_('user'),
+        on_delete=models.CASCADE,
+    )
+
+    command_code = models.CharField(
+        verbose_name=_('command code'),
+        max_length=12,
+    )
+
+    has_deliver = models.BooleanField(
+        verbose_name=_('has deliver'),
+        default=False,
+    )
+
+    is_sell = models.BooleanField(
+        verbose_name=_('is sell'),
+        default=False,
+    )
+
+    is_cancel = models.BooleanField(
+        verbose_name=_('is cancel'),
+        default=False,
+    )
+
+    localisation_x = models.FloatField(
+        verbose_name=_('localisation X'),
+        default=0
+    )
+
+    localisation_y = models.FloatField(
+        verbose_name=_('localisation Y'),
+        default=0
+    )
+
+    def __str__(self):
+        return f'{self.user} : {self.command_code}'
+
+
+    class Meta:
+        verbose_name = _('command')
+        verbose_name_plural = _('commands')
+
+
+
+
 class Order(models.Model):
 
     user = models.ForeignKey(
         UserModel,
         verbose_name=_('user'),
         on_delete=models.CASCADE,
+    )
+
+    command = models.ForeignKey(
+        Command,
+        on_delete=models.CASCADE,
+        verbose_name=_('command'),
+        related_name='orders',
+        null=True,
+        blank=True,
     )
     
     product = models.ForeignKey(
@@ -240,38 +301,6 @@ class Order(models.Model):
     @property
     def image(self):
         return self.product.main_image
-
-
-
-class Commande(models.Model):
-
-    user = models.ForeignKey(
-        UserModel,
-        verbose_name=_('user'),
-        on_delete=models.CASCADE,
-    )
-
-    oeders = models.ForeignKey(
-        Order,
-        verbose_name=_('oeders'),
-        on_delete=models.CASCADE,
-    )
-
-    is_deliver = models.BooleanField(
-        verbose_name=_('is deliver'),
-        default=False,
-    )
-
-    localisation_x = models.FloatField(
-        verbose_name=_('localisation X'),
-        default=0
-    )
-
-    localisation_y = models.FloatField(
-        verbose_name=_('localisation Y'),
-        default=0
-    )
-
     
 
 

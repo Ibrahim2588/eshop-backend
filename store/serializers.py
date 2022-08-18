@@ -6,6 +6,7 @@ from .models import (
     Product,
     Characteristics,
     Image,
+    Command,
 )
 
 
@@ -77,5 +78,30 @@ class OrderSerializer(serializers.ModelSerializer):
             'ordered',
         ]
         read_only_fields = [
+            'id',
             'ordered',
+        ]
+
+
+class CommandSerializer(serializers.ModelSerializer):
+
+    orders = OrderSerializer(many=True, read_only=True,)
+
+    class Meta:
+        model = Command
+        fields = [
+            'id',
+            'user',
+            'command_code',
+            'has_deliver',
+            'is_sell',
+            'is_cancel',
+            'localisation_x',
+            'localisation_y',
+            'orders',
+        ]
+        read_only_fields = [
+            'id',
+            'user',
+            'command_code',
         ]
