@@ -4,12 +4,8 @@ django-filter
 django-debug-toolbar
 dj-rest-auth
 django-cors-headers
-channels
-djangochannelsrestframework
 pillow
 django-allauth
 djangorestframework-simplejwt
 dj-rest-auth[with_social]
 django-phonenumber-field
-django-rest-authemail
-django-mailjet
