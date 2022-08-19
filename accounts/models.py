@@ -5,6 +5,16 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 
 
+def userImage(instance, filename):
+    email = instance.email
+    upload_to = f'img/profile/{email[:5]}/'
+
+    ext = filename.split('.')[-1]
+    filename = f'{email[:5]}.{ext}'
+
+    return upload_to+filename
+
+
 
 class UserManager(BaseUserManager):
 
@@ -66,10 +76,12 @@ class UserModel(AbstractUser):
         unique=True,
     )
 
-    # image = models.CharField(
-    #     verbose_name=_('image'),
-    #     upload_to=
-    # )
+    image = models.ImageField(
+        verbose_name=_('image'),
+        upload_to=userImage,
+        null=True,
+        blank=True,
+    )
 
     last_login = models.DateTimeField(
         verbose_name=_('last login'), 

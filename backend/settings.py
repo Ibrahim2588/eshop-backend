@@ -16,7 +16,10 @@ SECRET_KEY = 'django-insecure-9x*6iaq30!qj0@41%ax%lth33)zobkt()@95&w2(uy6vwbi+yu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -30,7 +33,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# django corsheaders
+INSTALLED_APPS += [
+    'corsheaders',
+]
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:1234',
+# ]
+
 MIDDLEWARE = [
+    # django-cors-header
+    "corsheaders.middleware.CorsMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -125,9 +140,7 @@ INSTALLED_APPS += [
     'accounts',
 ]
 AUTH_USER_MODEL = 'accounts.UserModel'
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'accounts.serializers.RegisterSerializer'
-}
+
 
 # store
 INSTALLED_APPS += [
@@ -151,7 +164,7 @@ REST_FRAMEWORK = {
 }
 
 
-# dj-rest-auth 
+# dj-rest-auth & django-allauth
 INSTALLED_APPS += [
     'dj_rest_auth',
     'dj_rest_auth.registration',
@@ -160,30 +173,27 @@ INSTALLED_APPS += [
 ]
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-
-# django corsheaders
-INSTALLED_APPS += [
-    'corsheaders'
-]
-MIDDLEWARE += [
-    'corsheaders.middleware.CorsMiddleware'
-]
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:1234',
-# ]
-CORS_ALLOW_ALL_ORIGINS = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserDetailSerializer',
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.RegisterSerializer'
+}
 
 
 
 # =================================
 # Developement dependancies
-INSTALLED_APPS += [
-    "debug_toolbar",
-]
-MIDDLEWARE += [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-]
+if DEBUG == True:
+    INSTALLED_APPS += [
+        "debug_toolbar",
+    ]
+    MIDDLEWARE += [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+    ]
+
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]

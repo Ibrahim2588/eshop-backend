@@ -1,4 +1,5 @@
 from dj_rest_auth.registration.serializers import RegisterSerializer as BaseRegistrerSerializer
+from dj_rest_auth.serializers import LoginSerializer as BaseLoginSerialiser
 from dj_rest_auth.serializers import UserDetailsSerializer as BaseUserDetailsSerializer
 
 from rest_framework import serializers
@@ -14,6 +15,10 @@ class RegisterSerializer(BaseRegistrerSerializer):
         return super().save(request)
 
 
+class LoginSerializer(BaseLoginSerialiser):
+    username = None
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -22,4 +27,5 @@ class UserDetailSerializer(serializers.ModelSerializer):
             'email',
             'first_name',
             'last_name',
+            'image',
         ]
