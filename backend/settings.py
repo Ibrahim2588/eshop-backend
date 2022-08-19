@@ -120,6 +120,14 @@ MEDIA_URL = '/media/'
 
 # ========================================================================== #
 
+# accounts
+INSTALLED_APPS += [
+    'accounts',
+]
+AUTH_USER_MODEL = 'accounts.UserModel'
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.RegisterSerializer'
+}
 
 # store
 INSTALLED_APPS += [
@@ -150,7 +158,8 @@ INSTALLED_APPS += [
     'allauth',
     'allauth.account',
 ]
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 
 # django corsheaders
