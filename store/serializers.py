@@ -33,6 +33,7 @@ class ProductListSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'title',
+            'description',
             'price',
             'disccount',
             'reduction',

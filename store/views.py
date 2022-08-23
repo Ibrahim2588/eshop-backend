@@ -37,9 +37,10 @@ from rest_framework import (
 
 
 class Pagination(pagination.PageNumberPagination):
-    page_size = 10
+    page_size = 2
     page_size_query_param = 'page_size'
     # max_page_size = 3
+
 
 class ProductListView(generics.ListAPIView,):
     queryset = Product.objects.filter(is_avtivated=True)
@@ -54,7 +55,6 @@ class ProductListView(generics.ListAPIView,):
     ]
 
 
-
 class AbstractProductCategory(generics.ListAPIView):
     queryset = Product.objects.filter(is_avtivated=True)
     serializer_class = ProductListSerializer
@@ -63,11 +63,13 @@ class AbstractProductCategory(generics.ListAPIView):
     class Meta: 
         abstract = True
 
+
 class ProductCategoryView(AbstractProductCategory):
     def get_queryset(self):
         category_slug = self.kwargs['category']
         query = super().get_queryset()
-        return query.filter(category__value=category_slug).order_by('title')
+        return query.filter(category__value=category_slug)
+
 
 class ProductCategoryRecomendedView(AbstractProductCategory):
     def get_queryset(self):
@@ -75,21 +77,16 @@ class ProductCategoryRecomendedView(AbstractProductCategory):
         query = super().get_queryset()
         return query.filter(
             category__value=category_slug,
-            recomended=True    
+            recomended=True,
         )
 
-
-# @api_view(['GET', ])
-# def ProductCategoryView(request, category_slug):
-
-#     if request.method == 'GET':
-        
-#         products = Product.objects.filter(category__value=category_slug)
-#         products_data = ProductListSerializer(products, many=True).data
-#         return Response(products_data, status.HTTP_200_OK)
-
-#     return Response(f'method {request.method} not allowed')
-        
+class BestProductListView(generics.ListAPIView,):
+    queryset = Product.objects.filter(is_avtivated=True)
+    serializer_class = ProductListSerializer
+    
+    def get_queryset(self):
+        query = super().get_queryset()
+        return query
 
 
 class ProductDetailView(generics.RetrieveAPIView,):
@@ -147,6 +144,9 @@ class OrderUpdateDestroyView(
 class CommandView(generics.ListCreateAPIView):
     queryset = Command.objects.all()
     serializer_class = CommandSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
     
     def get_queryset(self):
         query = super().get_queryset()

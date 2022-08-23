@@ -92,6 +92,11 @@ class Product(models.Model):
         verbose_name=_('is stock'),
         default=True,        
     )
+
+    # level = models.IntegerField(
+    #     verbose_name=_('level'),
+    #     default=0,
+    # )
     
     main_image = models.ImageField(
         verbose_name=_('main image'),
