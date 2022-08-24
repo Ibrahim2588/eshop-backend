@@ -93,10 +93,15 @@ class Product(models.Model):
         default=True,        
     )
 
-    # level = models.IntegerField(
-    #     verbose_name=_('level'),
-    #     default=0,
-    # )
+    level = models.IntegerField(
+        verbose_name=_('level'),
+        default=0,
+    )
+
+    best = models.BooleanField(
+        verbose_name=_('best'),
+        default=False
+    )
     
     main_image = models.ImageField(
         verbose_name=_('main image'),
@@ -125,7 +130,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = _('product')
         verbose_name_plural = _('products')
-        ordering = ['-id', ]
+        ordering = ['-level', '-price',  ]
     
     def __str__(self):
         return self.title

@@ -28,7 +28,8 @@ class OrderInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title', 'price', 'is_stock', 'is_avtivated', ]
+    list_display = ['title', 'price', 'level', 'is_stock', 'is_avtivated', ]
+    list_filter = ['level', 'best', 'is_stock', 'is_avtivated', ]
     inlines = [ImageInline, CharacteristicsInline]
 
 @admin.register(Category)

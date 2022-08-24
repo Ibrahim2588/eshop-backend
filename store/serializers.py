@@ -34,6 +34,8 @@ class ProductListSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'description',
+            'level',
+            'best',
             'price',
             'disccount',
             'reduction',

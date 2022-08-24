@@ -37,7 +37,7 @@ from rest_framework import (
 
 
 class Pagination(pagination.PageNumberPagination):
-    page_size = 2
+    page_size = 3
     page_size_query_param = 'page_size'
     # max_page_size = 3
 
@@ -81,12 +81,12 @@ class ProductCategoryRecomendedView(AbstractProductCategory):
         )
 
 class BestProductListView(generics.ListAPIView,):
-    queryset = Product.objects.filter(is_avtivated=True)
+    queryset = Product.objects.filter(is_avtivated=True).order_by()
     serializer_class = ProductListSerializer
     
     def get_queryset(self):
         query = super().get_queryset()
-        return query
+        return query.filter(best=True).order_by('-level')[:2]
 
 
 class ProductDetailView(generics.RetrieveAPIView,):
